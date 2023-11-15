@@ -26,9 +26,7 @@ class MenuVC: UIViewController {
     //MARK: - Actions
     @objc private func didPlayBtnPressed() {
         let vc = GameVC()
-        vc.modalPresentationStyle = .fullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: false)
     }
     
     //MARK: - viewDidLoad

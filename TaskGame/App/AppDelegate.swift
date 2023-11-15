@@ -6,13 +6,18 @@
 //
 
 import UIKit
+import Combine
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // get urls
+        let beenLaunched = UserDefaults.standard.bool(forKey: K.firstLaunch)
+        if !beenLaunched {
+            NetworkManager.shared.getUrls()
+            UserDefaults.standard.set(true, forKey: K.firstLaunch)
+        }
         return true
     }
 

@@ -8,10 +8,15 @@
 import Foundation
 import Combine
 
+enum GameResult {
+    case win
+    case lose
+}
 
 final class GameViewViewModel: ObservableObject {
     
     @Published var timerValue = 0
+    @Published var gameResult: GameResult?
     
     private var timer: Timer?
     private var subscriptions: Set<AnyCancellable> = []
@@ -23,6 +28,9 @@ final class GameViewViewModel: ObservableObject {
     
     @objc private func timerAction() {
         timerValue += 1
+        if timerValue == -5 {
+            gameResult = .win
+        }
     }
     
     func stopTimer() {
