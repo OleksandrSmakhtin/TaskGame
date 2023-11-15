@@ -17,8 +17,8 @@ final class GameViewViewModel: ObservableObject {
     
     @Published var timerValue = 0
     @Published var gameResult: GameResult?
-    
     private var timer: Timer?
+    
     private var subscriptions: Set<AnyCancellable> = []
     
     
@@ -26,14 +26,14 @@ final class GameViewViewModel: ObservableObject {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
     }
     
-    @objc private func timerAction() {
-        timerValue += 1
-        if timerValue == -5 {
-            gameResult = .win
-        }
-    }
-    
     func stopTimer() {
         timer?.invalidate()
+    }
+    
+    @objc private func timerAction() {
+        timerValue += 1
+        if timerValue == 30 {
+            gameResult = .win
+        }
     }
 }

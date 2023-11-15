@@ -49,7 +49,6 @@ class GameScene: SKScene {
         accelUpdate()
     }
     
-    
     //MARK: - Create ball
     private func createBall() {
         let ballRadius: CGFloat = 20.0
@@ -73,44 +72,46 @@ class GameScene: SKScene {
     
     //MARK: - Obstacles
     func createObstacles() {
-        let spawnAction = SKAction.sequence([SKAction.run(createObstacle), SKAction.wait(forDuration: 0.65)])
-        run(SKAction.repeatForever(spawnAction))
+        let createAction = SKAction.sequence([SKAction.run(createObstacle), SKAction.wait(forDuration: 0.62)])
+        run(SKAction.repeatForever(createAction))
     }
     
     //MARK: - Obstacle
     func createObstacle() {
         let obstacleWidth: CGFloat = CGFloat.random(in: 150...250)
-        let obstacleHeight: CGFloat = 7.0
+        let obstacleHeight: CGFloat = 6.0
         let leftSpawnX: CGFloat = obstacleWidth/2 + CGFloat.random(in: 0...100)
         let rightSpawnX = frame.width - obstacleWidth/2 - CGFloat.random(in: 0...100)
         let deadlyObstacle = Int.random(in: 1...10)
         
         let obstacle = SKSpriteNode(color: SKColor.black, size: CGSize(width: obstacleWidth, height: obstacleHeight))
         
+        // red obstacle check
         if deadlyObstacle == 1 {
             obstacle.name = "loseObstacle"
             obstacle.color = .red
             obstacle.size.width = CGFloat.random(in: 50...100)
         }
         
+        // position side
         isObstacleOnLeft.toggle()
-        
         if isObstacleOnLeft {
             obstacle.position = CGPoint(x: leftSpawnX, y: 0)
         } else {
             obstacle.position = CGPoint(x: rightSpawnX, y: 0)
         }
-        
+        //phy
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
         obstacle.physicsBody?.isDynamic = false
         obstacle.physicsBody?.categoryBitMask = 1
         obstacle.physicsBody?.contactTestBitMask = 0
         
+        // x moving
         let randomXVelocity = CGFloat.random(in: -70.0...70.0)
         obstacle.physicsBody?.velocity = CGVector(dx: randomXVelocity, dy: 50.0)
         
         addChild(obstacle)
-        
+        // actions
         let moveAction = SKAction.moveTo(y: size.height - 100, duration: 10.0)
         let removeAction = SKAction.removeFromParent()
         obstacle.run(SKAction.sequence([moveAction, removeAction]))

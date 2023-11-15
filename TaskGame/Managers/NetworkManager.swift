@@ -31,6 +31,4 @@ class NetworkManager {
                 UserDefaults.standard.setValue(urls.loser, forKey: K.lose)
             }.store(in: &subscriptions)
     }
-    
-    
 }
