@@ -53,35 +53,34 @@ class GameScene: SKScene {
     //MARK: - Create ball
     private func createBall() {
         let ballRadius: CGFloat = 20.0
-        let ballRect = CGRect(x: -ballRadius, y: -ballRadius, width: ballRadius * 2, height: ballRadius * 2)
-        
-        //ballNode = SKShapeNode(rect: ballRect, cornerRadius: ballRadius)
-        ballNode = SKSpriteNode(imageNamed: "ball")
+        ballNode = SKSpriteNode(imageNamed: "ball1")
         ballNode.name = "ball"
         ballNode.xScale = 0.5
         ballNode.yScale = 0.5
-//        ballNode.fillColor = SKColor.white
-//        ballNode.strokeColor = SKColor.black
-//        ballNode.lineWidth = 3.0
         ballNode.position = CGPoint(x: size.width/2, y: size.height/2 - 50)
         ballNode.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
         ballNode.physicsBody?.isDynamic = true
         ballNode.physicsBody?.categoryBitMask = 0
         ballNode.physicsBody?.contactTestBitMask = 1
-        
         addChild(ballNode)
+        // animation
+        let textures: [SKTexture] = K.ballAnimations.map { title in
+            return SKTexture(imageNamed: title)
+        }
+        let ballAnimation = SKAction.animate(with: textures, timePerFrame: 3)
+        ballNode.run(SKAction.repeatForever(ballAnimation))
     }
     
     //MARK: - Obstacles
     func createObstacles() {
-        let spawnAction = SKAction.sequence([SKAction.run(createObstacle), SKAction.wait(forDuration: 0.70)])
+        let spawnAction = SKAction.sequence([SKAction.run(createObstacle), SKAction.wait(forDuration: 0.65)])
         run(SKAction.repeatForever(spawnAction))
     }
     
     //MARK: - Obstacle
     func createObstacle() {
         let obstacleWidth: CGFloat = CGFloat.random(in: 150...250)
-        let obstacleHeight: CGFloat = 10.0
+        let obstacleHeight: CGFloat = 7.0
         let leftSpawnX: CGFloat = obstacleWidth/2 + CGFloat.random(in: 0...100)
         let rightSpawnX = frame.width - obstacleWidth/2 - CGFloat.random(in: 0...100)
         let deadlyObstacle = Int.random(in: 1...10)

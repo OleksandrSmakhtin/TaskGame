@@ -12,5 +12,6 @@ struct K {
     static let win = "game_win"
     static let lose = "game_lose"
     static let firstLaunch = "firstLaucnh"
+    static let ballAnimations = ["ball1", "ball2", "ball3", "ball4"]
     static let requestUrl = "https://2llctw8ia5.execute-api.us-west-1.amazonaws.com/prod"
 }
